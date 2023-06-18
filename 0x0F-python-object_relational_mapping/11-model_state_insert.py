@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-List all State objects from the states table of a MySQL database
+Add the State object Louisiana to the states table of a MySQL database
 """
 
 from model_state import Base, State
@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 from sys import argv, exit, stderr
 
 
-HELP = '{} username password database search'.format(argv[0])
+HELP = '{} username password database'.format(argv[0])
 HOST = 'localhost'
 PORT = 3306
 URLFORMAT = '{dialect}+{driver}://{user}:{password}@{host}/{database}'
@@ -25,7 +25,6 @@ if __name__ == '__main__':
             'host': HOST,
             'database': argv[3],
         }
-        search = argv[4]
     except IndexError:
         stderr.write('usage: {}\n'.format(HELP))
         exit(2)
@@ -33,9 +32,8 @@ if __name__ == '__main__':
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
-    results = session.query(State).filter(State.name == search)
-    if results.first() is None:
-        print('Not found')
-    else:
-        print(', '.join(str(state.id) for state in results.all()))
+    louisiana = State(name='Louisiana')
+    session.add(louisiana)
+    session.commit()
+    print(louisiana.id)
     session.close()
