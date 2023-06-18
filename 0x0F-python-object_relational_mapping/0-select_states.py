@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-List all states from a MySQL db on localhost at port 3306
+List all states from MySQL db on localhost at port 3306
 """
 
 from mysqlman import MySQLMan
